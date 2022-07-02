@@ -84,8 +84,7 @@ class LinkedList:
     
     
 linkedList = LinkedList()
-# node1 = Node(10)
-# linkedList.head = node1
+
 linkedList.add(1)
 linkedList.add(2)
 linkedList.add(3)
