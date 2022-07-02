@@ -68,6 +68,69 @@ class SinglyLinkedList:
         newHead = Node(data, nextNode = self.head)
         self.head = newHead
         self.__count += 1
+    
+    def removeNode(self, key):
+        """
+        If the key is found, remove it from the list and return the node
+        
+        :param key: The value to be removed from the list
+        :return: The node that was removed.
+        
+        :Algorithm: O(n) linear time
+        """
+        current = self.head
+        previous = None
+        isFound = False
+
+        while current and not isFound:
+            if current.data == key and current is self.head:
+                isFound = True
+                self.head = current.nextNode
+                self.__count -= 1
+                return current.data
+            elif current.data == key:
+                isFound = True
+                previous.nextNode = current.nextNode
+                self.__count -= 1
+                return current.data
+            else:
+                previous = current
+                current = current.nextNode
+
+        return None
+    
+    def removeAtIndex(self, index):
+        """
+        The function removes the node at the specified index and returns the data of the removed node
+        
+        :param index: the index of the node to remove
+        :return: The data of the node that was removed.
+        :Algorithm: O(n) Linear time
+        """
+        if index >= self.__count:
+            raise IndexError('index out of range')
+
+        current = self.head
+
+        if index == 0:
+            self.head = current.nextNode
+            self.__count -= 1
+            return current.data
+
+        position = index
+
+        while position > 1:
+            current = current.nextNode
+            position -= 1
+
+        prevNode = current
+        current = current.nextNode
+        nextNode = current.nextNode
+
+        prevNode.nextNode = nextNode
+        self.__count -= 1
+
+        return current.data
         
     def insertNode(self, data, index):
         """
@@ -112,23 +175,20 @@ class SinglyLinkedList:
         """
         current = self.head
         
-        if(current is not None):
-            return current.data
-        
         if index >= self.__count:
             raise IndexError('Index out of range')
 
         if index == 0:
-            return self.head
+            return current.data
         else:
-            current = self.head
-            position = 0
+            current = current.nextNode
+            position = 1
 
             while position < index:
                 current = current.nextNode
                 position += 1
                 
-        return current
+        return current.data
          
     def searchNode(self, data):
         """
@@ -159,16 +219,35 @@ class SinglyLinkedList:
             current = current.nextNode
             
         return count
-    
+
+# Add nodes to Singly Linked List
 SinglyLinkedList = SinglyLinkedList()
-N1 = Node(0);
-SinglyLinkedList.addNode(1)
-SinglyLinkedList.addNode(2)
-SinglyLinkedList.addNode(3)
-SinglyLinkedList.addNode(4)
+SinglyLinkedList.addNode(10)
+SinglyLinkedList.addNode(20)
+SinglyLinkedList.addNode(30)
+SinglyLinkedList.addNode(40)
+SinglyLinkedList.addNode(50)
 SinglyLinkedList.insertNode(17, 2)
 
-print(SinglyLinkedList)
-# print(SinglyLinkedList.__len__())
-print(SinglyLinkedList.nodeAt(0))
-# print(SinglyLinkedList.getSize())
+# Print the visual presentation of Singly Linked List
+print("\n##################################################################################################")
+print("\n[Original] LinkedList: %s" % SinglyLinkedList)
+
+# Get the size of Original Singly Linked List
+print("\n[Original] LinkedList Size: %s" % SinglyLinkedList.__len__())
+
+# Print the node removed from the singly linked list
+# print(SinglyLinkedList.removeNode(15))
+# print(SinglyLinkedList.removeNode(30))
+print("Node Removed: %s" % SinglyLinkedList.removeAtIndex(2))
+
+# Print the visual presentation of Singly Linked List
+print("\n[After] LinkedList: %s" % SinglyLinkedList)
+
+# Print the data of node at index 2
+print("Node at index 2: %s" % SinglyLinkedList.nodeAt(2))
+
+# Get the size of After Singly Linked List
+print("\n[After] LinkedList Size: %s" % SinglyLinkedList.__len__())
+
+print("\n##################################################################################################")
